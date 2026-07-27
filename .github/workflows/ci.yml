@@ -1,0 +1,56 @@
+name: Agent CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install httpx pytest pytest-cov
+
+      - name: Run tests with coverage
+        run: |
+          python -m pytest test_agent.py -v --cov=. --cov-report=term-missing
+
+      - name: Verify imports
+        run: |
+          python -c "from agent import Agent, AgentConfig, BaseTool, ToolRegistry"
+          python -c "from agent.providers.llm import LLM"
+          python -c "from agent.memory.memory import MemorySystem"
+          python -c "from agent.config.loader import load_config"
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff
+      - run: ruff check agent/ --ignore=E501,E402 || true
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for exposed secrets
+        run: |
+          git ls-files | xargs grep -l "ghp_\|sk-\|xai-\|sk-ant-" 2>/dev/null && echo "WARNING: API keys found!" && exit 1 || echo "No exposed keys"
