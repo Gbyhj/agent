@@ -1,0 +1,87 @@
+version: "3.9"
+
+services:
+  agent:
+    build: .
+    container_name: agent
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - ./config.toml:/app/config.toml:ro
+      - agent-memory:/app/.agent_memory
+      - agent-conversations:/app/conversations
+      - ./workspace:/app/workspace           # Agent 工作目录
+    environment:
+      - AGENT_PROVIDER=${AGENT_PROVIDER:-deepseek}
+      - AGENT_MODEL=${AGENT_MODEL:-deepseek-v4-flash}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - AGENT_LOG_LEVEL=${AGENT_LOG_LEVEL:-INFO}
+    shm_size: "1gb"
+    cap_add:
+      - SYS_ADMIN                              # 浏览器需要
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:size=64M
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "1.5"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # 可选: ChromaDB 向量数据库
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: agent-chromadb
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - chromadb-data:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+
+  # 可选: Langfuse 可观测性
+  langfuse:
+    image: langfuse/langfuse:latest
+    container_name: agent-langfuse
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://langfuse:langfuse@langfuse-db:5432/langfuse
+      - NEXTAUTH_SECRET=change-me-in-production
+      - SALT=change-me-in-production
+    depends_on:
+      - langfuse-db
+
+  langfuse-db:
+    image: postgres:16-alpine
+    container_name: agent-langfuse-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=langfuse
+      - POSTGRES_PASSWORD=langfuse
+      - POSTGRES_DB=langfuse
+    volumes:
+      - langfuse-db-data:/var/lib/postgresql/data
+
+volumes:
+  agent-memory:
+  agent-conversations:
+  chromadb-data:
+  langfuse-db-data:
