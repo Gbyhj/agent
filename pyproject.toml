@@ -1,0 +1,36 @@
+[project]
+name = "agent"
+version = "5.0.0"
+description = "自主 AI Agent 框架 — 融合 25+ 开源项目最佳设计"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Agent Team" }]
+keywords = ["ai", "agent", "llm", "coding-agent"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+web = ["flask>=3.0"]
+all = ["flask>=3.0", "chromadb", "pyreadline3"]
+dev = ["pytest>=8", "pytest-cov", "ruff"]
+
+[project.scripts]
+agent = "agent.main:main"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
