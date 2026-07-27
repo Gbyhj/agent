@@ -1,0 +1,12 @@
+# Agent 项目依赖
+
+# 核心
+httpx>=0.27.0       # 异步 HTTP 客户端（LLM API 调用）
+
+# 可选增强（按需安装）
+# chromadb          # 向量数据库（替换文件式记忆）
+# mem0ai            # Agent 记忆层
+# litellm           # 多模型统一网关
+# langfuse          # 可观测性
+# e2b-code-interpreter  # 代码沙箱
+# playwright        # 浏览器自动化
