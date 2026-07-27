@@ -1,0 +1,50 @@
+# Agent 配置文件
+# 复制为 config.toml 并修改
+
+[agent]
+name = "Agent"
+mode = "act"                    # plan | act | auto
+max_turns = 25
+planning_interval = 5           # 每 N 轮自动规划（0 = 关闭）
+verify_completion = true         # Goal 验证
+auto_memory = true               # 自动记忆提取
+self_repair = true               # 错误自修复
+daily_budget = 5.0               # 每日预算（元）
+
+[model]
+provider = "deepseek"
+model = "deepseek-v4-flash"
+# 留空则启用智能路由
+# 可选: deepseek, openai, anthropic, openrouter, siliconflow, zhipu, ollama
+
+[logging]
+level = "INFO"                   # DEBUG | INFO | WARNING | ERROR
+
+[sandbox]
+enabled = true
+mode = "workspace"               # off | workspace | read-only | strict
+docker_enabled = false           # 启用 Docker 隔离
+
+[security]
+allowed_paths = []               # 空 = CWD + 子目录
+blocked_commands = ["rm -rf /", "sudo", "mkfs", "dd if="]
+blocked_paths = ["~/.ssh", "~/.aws", "/etc/passwd", "/etc/shadow"]
+
+[memory]
+vector_enabled = true
+persist_dir = "./.agent_memory"
+max_daily_logs = 50
+
+[tools]
+read_file = true
+write_file = true
+list_dir = true
+grep = true
+bash = true
+web_fetch = true
+web_search = true
+
+[web]
+host = "0.0.0.0"
+port = 5000
+debug = false
