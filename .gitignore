@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Agent 运行时
+.agent_memory/
+conversations/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 密钥
+.env
+*.key
+*.pem
+
+# Jupyter
+.ipynb_checkpoints/
+
+# 测试
+.pytest_cache/
+.coverage
+htmlcov/
