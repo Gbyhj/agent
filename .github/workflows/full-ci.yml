@@ -1,0 +1,57 @@
+name: Agent CI — Full Test Suite
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: Install dependencies
+        run: |
+          pip install httpx pytest pytest-cov
+
+      - name: Smoke test
+        run: PYTHONPATH=. python agent/test_agent.py
+        working-directory: .
+
+      - name: Unit tests
+        run: PYTHONPATH=. python -m pytest agent/tests/ -v --timeout=60
+
+      - name: Beta test (21 scenarios)
+        run: PYTHONPATH=. python agent/beta_test.py
+        working-directory: .
+
+      - name: Benchmark
+        run: PYTHONPATH=. python agent/tests/benchmark.py
+        working-directory: .
+
+      - name: Import verification
+        run: |
+          python -c "from agent import Agent, AgentConfig, BaseTool"
+          python -c "from agent.providers.llm import LLM"
+          python -c "from agent.memory.memory import MemorySystem"
+          python -c "from agent.core.session_manager import SessionManager"
+          python -c "from agent.core.reflex import ReflexSystem"
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install ruff
+      - run: ruff check agent/ --ignore=E501,E402,F401 || true
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for exposed secrets
+        run: |
+          git ls-files | xargs grep -l "ghp_\|sk-\|xai-" 2>/dev/null && echo "EXPOSED" && exit 1 || echo "Clean"
