@@ -1,0 +1,24 @@
+name: Bug Report
+description: 报告一个 Bug
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: textarea
+    attributes:
+      label: 描述
+      description: 发生了什么？
+  - type: textarea
+    attributes:
+      label: 复现步骤
+      description: 如何复现？
+  - type: textarea
+    attributes:
+      label: 期望行为
+  - type: input
+    attributes:
+      label: Python 版本
+      placeholder: "3.12"
+  - type: input
+    attributes:
+      label: OS
+      placeholder: "Windows 11"
