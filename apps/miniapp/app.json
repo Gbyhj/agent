@@ -1,0 +1,12 @@
+{
+  "pages": ["pages/chat/chat"],
+  "window": {
+    "navigationBarTitleText": "Agent",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#fafbfc"
+  },
+  "networkTimeout": {
+    "request": 120000
+  }
+}
