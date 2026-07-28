@@ -118,6 +118,7 @@ class SyntheticUser:
                 {"action": "fill", "selector": "#msgInput", "value": "你有哪些功能"},
                 {"action": "click", "selector": "#sendBtn"},
                 {"action": "wait", "selector": ".msg.agent", "timeout": 15000},
+                {"action": "wait_enabled", "selector": "#msgInput", "timeout": 5000},
                 {"action": "fill", "selector": "#msgInput", "value": "继续说"},
                 {"action": "click", "selector": "#sendBtn"},
                 {"action": "wait", "selector": ".msg.agent", "timeout": 15000},
@@ -236,6 +237,14 @@ class SyntheticUser:
                         page.get_by_text(step["text"], exact=False).first.click(timeout=5000)
                     except Exception:
                         issues.append(f"找不到文本: {step['text']}")
+
+                elif action == "wait_enabled":
+                    selector = step["selector"]
+                    timeout = step.get("timeout", 5000)
+                    try:
+                        page.wait_for_selector(f"{selector}:not([disabled])", timeout=timeout)
+                    except Exception:
+                        page.wait_for_timeout(timeout)
 
                 elif action == "fill":
                     try:
