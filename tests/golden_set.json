@@ -1,0 +1,15 @@
+{
+  "baseline": "2026-07-28",
+  "cases": [
+    {"id":"1","input":"审查 agent.py 安全性","expected_output":"安全","type":"simple"},
+    {"id":"2","input":"分析项目架构","expected_output":"架构","type":"multi-step"},
+    {"id":"3","input":"设计用户表","expected_output":"CREATE","type":"simple"},
+    {"id":"4","input":"搜索最新AI框架","expected_output":"框架","type":"multi-step"},
+    {"id":"5","input":"生成Python函数","expected_output":"def","type":"simple"},
+    {"id":"6","input":"重构agent.py","expected_output":"重构","type":"multi-step"},
+    {"id":"7","input":"解释什么是Agent","expected_output":"Agent","type":"simple"},
+    {"id":"8","input":"你有哪些功能","expected_output":"功能","type":"simple"},
+    {"id":"9","input":"优化代码性能","expected_output":"性能","type":"adversarial"},
+    {"id":"10","input":"找潜在的安全漏洞","expected_output":"漏洞","type":"adversarial"}
+  ]
+}
