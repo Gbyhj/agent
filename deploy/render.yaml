@@ -1,0 +1,16 @@
+# Render 免费部署配置
+# 部署: 在 render.com 创建 Web Service，指向此仓库
+
+services:
+  - type: web
+    name: agent-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn agent.server:app -b 0.0.0.0:$PORT -w 2
+    envVars:
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: AGENT_PROVIDER
+        value: deepseek
+      - key: AGENT_MODEL
+        value: deepseek-v4-flash
