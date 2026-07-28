@@ -1,0 +1,8 @@
+.chat-page{display:flex;flex-direction:column;height:100vh}
+.chat-list{flex:1;padding:20rpx}
+.msg{max-width:85%;padding:16rpx 24rpx;border-radius:16rpx;margin-bottom:16rpx;font-size:28rpx;line-height:1.6}
+.msg.user{align-self:flex-end;background:#2563eb;color:#fff;margin-left:auto}
+.msg.agent{align-self:flex-start;background:#fff;border:1rpx solid #e5e7eb}
+.input-bar{display:flex;padding:16rpx;background:#fff;border-top:1rpx solid #e5e7eb;gap:12rpx}
+.msg-input{flex:1;padding:16rpx 24rpx;border:1rpx solid #e5e7eb;border-radius:12rpx;font-size:28rpx}
+.send-btn{background:#2563eb;color:#fff;border-radius:12rpx}
