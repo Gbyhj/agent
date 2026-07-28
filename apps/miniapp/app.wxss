@@ -1,0 +1,3 @@
+/* Agent 小程序 · 全局样式 */
+page{font-family:-apple-system,system-ui,sans-serif;background:#fafbfc;color:#1a1a2e}
+.container{padding:16rpx}
