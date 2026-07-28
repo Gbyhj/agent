@@ -1,0 +1,15 @@
+<view class="chat-page">
+  <scroll-view class="chat-list" scroll-y scroll-into-view="{{scrollTo}}">
+    <view wx:for="{{messages}}" wx:key="id" class="msg {{item.role}}" id="msg-{{index}}">
+      <text>{{item.content}}</text>
+    </view>
+  </scroll-view>
+
+  <view class="input-bar">
+    <input class="msg-input" value="{{input}}" placeholder="输入任务..."
+      bindinput="onInput" bindconfirm="send" confirm-type="send"
+      disabled="{{loading}}" auto-focus/>
+    <button class="send-btn" bindtap="send" disabled="{{loading}}"
+      size="mini">发送</button>
+  </view>
+</view>
