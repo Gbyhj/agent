@@ -1,0 +1,36 @@
+/* Agent 品牌共享样式 — apps/web/shared.css */
+
+:root {
+  --brand: #2563eb;
+  --brand-dark: #1d4ed8;
+  --brand-light: #eff6ff;
+  --brand-gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  --accent: #2563eb;
+  --accent2: #7c3aed;
+  --success: #16a34a;
+  --warning: #f59e0b;
+  --danger: #dc2626;
+  --bg: #fafbfc;
+  --card: #ffffff;
+  --text: #1a1a2e;
+  --text2: #6b7280;
+  --border: #e5e7eb;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --shadow: 0 1px 3px rgba(0,0,0,.04), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg: 0 4px 24px rgba(0,0,0,.08);
+  --transition: all .2s cubic-bezier(.4,0,.2,1);
+}
+
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --border: #334155;
+  --brand-light: rgba(37,99,235,.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); }
